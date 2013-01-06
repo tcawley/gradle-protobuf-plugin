@@ -2,9 +2,9 @@ package com.tomcawley
 
 import org.gradle.api.NamedDomainObjectContainer;
 
-import com.tcs.domain.LangConfig
-import com.tcs.domain.ProtoBufSourceSet
-import com.tcs.domain.ProtocConfig
+import com.tomcawley.domain.LangConfig
+import com.tomcawley.domain.ProtoBufSourceSet
+import com.tomcawley.domain.ProtocConfig
 
 class ProtoBufExtension {
 
