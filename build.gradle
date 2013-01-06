@@ -1,0 +1,9 @@
+apply plugin: 'groovy'
+
+group = 'com.tomcawley'
+version = '0.1'
+
+dependencies {
+	compile gradleApi()
+	groovy localGroovy()
+}
