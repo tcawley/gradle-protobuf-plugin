@@ -67,6 +67,7 @@ Programming languages supported:
     
         apply plugin: 'java'
         compileJava.dependsOn compileProto
+        clean.dependsOn cleanProto
     
 2. C++
 
