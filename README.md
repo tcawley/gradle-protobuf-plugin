@@ -10,15 +10,15 @@ Quick Start
     // Apply the plugin
     buildscript {
         repositories {
-            flatDir (dirs: file('../protobufGradlePluginGroovy/build/libs'))
+            flatDir (dirs: file('/Users/user/git/gradle-protobuf-plugin/build/libs'))
         }
         
         dependencies {
-            classpath ':protobufGradlePlugin:0.1'
+            classpath ':gradle-protobuf-plugin:0.1'
         }
     }
     
-    apply plugin: 'protobufGradlePlugin'
+    apply plugin: 'gradleProtobufPlugin'
     
     // Point to your protobuf library for compilation of the generated files
     dependencies {
