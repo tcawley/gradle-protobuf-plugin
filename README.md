@@ -1,7 +1,7 @@
 gradle-protobuf-plugin
 ======================
 
-Gradle plugin for using Google Protocol Buffers in your Gradle project.
+[Gradle](http://gradle.org) plugin for using [Google Protocol Buffers](https://developers.google.com/protocol-buffers/) in your Gradle project.
 
 Quick Start
 -----
@@ -61,18 +61,29 @@ Programming languages supported:
             java
         }
     
+    Compiles the <tt>.proto</tt> files into <tt>.java</tt> files (output to <tt>lang.java.genDir</tt>).
+    
+    Implies:
+    
+    * <tt>apply plugin: 'java'</tt>
+    * <tt>compileJava.dependsOn compileProto</tt>
+    
 2. C++
 
         lang {
             cpp
         }
 
+    <tt>.proto</tt> generation only at this time.
+    
 3. Python
 
         lang {
             python
         }
 
+    <tt>.proto</tt> generation only at this time.
+    
 Tasks
 -----
 
@@ -101,6 +112,8 @@ Conventions
         }
         
 * **<tt>sourceSets</tt>** - Optional; if unspecified configures **<tt>proto.srcDir=src/main/proto</tt>**
+  
+  Supports only local files.  Remote folders coming soon (e.g., http://your/protos).
 * **<tt>lang</tt>** - configures the programming language(s) you want your .proto files compiled to.
  The default **<tt>genDir</tt>** is **<tt>src/main/$name</tt>**, where <tt>$name</tt> is the name of the programming language
  (e.g., java, cpp, python).
