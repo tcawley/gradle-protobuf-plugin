@@ -1,6 +1,5 @@
 * test cpp - WTF is wrong with it?
-* eclipse generation
-* test with DataLayer
-* put on github
-* Document 
-* proto src folder http/X:/remote?
+* eclipse generation?
+* Documentation
+* proto remote src folder http, drive letter, UNC path
+* 
