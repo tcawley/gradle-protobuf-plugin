@@ -2,4 +2,6 @@
 * eclipse generation?
 * Documentation
 * proto remote src folder http, drive letter, UNC path
-* 
+* gradlew
+* Distribution - zip, tar, bz, etc.
+* GitHub Pages
