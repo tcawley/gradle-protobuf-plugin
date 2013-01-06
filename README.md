@@ -65,8 +65,8 @@ Programming languages supported:
     
     Implies:
     
-    * apply plugin: 'java'
-    * <tt>compileJava.dependsOn compileProto</tt>
+        apply plugin: 'java'
+        compileJava.dependsOn compileProto
     
 2. C++
 
