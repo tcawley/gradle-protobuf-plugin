@@ -93,7 +93,9 @@ Tasks
 
 Conventions
 -----
-* **<tt>protoc</tt>** - Platform dependent.  Specify the name of your platform as determined by
+* **<tt>protoc { ... }</tt>**
+
+    Platform dependent.  Specify the name of your platform as determined by
  Java's <tt>System.getProperty("os.name");</tt>
  
  **<tt>path</tt>** specifies the path to the <tt>protoc</tt> executable for your platform.
@@ -112,13 +114,33 @@ Conventions
             }
         }
         
-* **<tt>sourceSets</tt>** - Optional; if unspecified configures **<tt>proto.srcDir=src/main/proto</tt>**
+* **<tt>sourceSets { ... }</tt>**
+    
+    Optional; if unspecified configures **<tt>proto.srcDir=src/main/proto</tt>**
+
+        // Override
+        sourceSets {
+            proto {
+                srcDir = '/where/you/want'
+            }
+        }
   
   Supports only local files.  Remote folders coming soon (e.g., http://your/protos).
-* **<tt>lang</tt>** - configures the programming language(s) you want your .proto files compiled to.
+* **<tt>lang { ... }</tt>**
+
+    Configures the programming language(s) you want your `.proto` files compiled to.
  The default **<tt>genDir</tt>** is **<tt>src/main/$name</tt>**, where <tt>$name</tt> is the name of the programming language
  (e.g., java, cpp, python).
  
+        // Override
+        lang {
+            java {
+                genDir = 'src'
+            }
+        }
+
+    Defaults:
+    
         lang {
             java   // Defaults genDir to 'src/main/java'
             cpp    // Defaults genDir to 'src/main/cpp'
