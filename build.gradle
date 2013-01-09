@@ -3,7 +3,20 @@ apply plugin: 'groovy'
 group = 'com.tomcawley'
 version = '0.1'
 
+repositories {
+	mavenCentral()
+}
+
 dependencies {
 	compile gradleApi()
 	groovy localGroovy()
+}
+
+test {
+    testLogging {
+		debug {
+	        events "started", "skipped", "failed", "passed", "standard_out"
+	        exceptionFormat "full"
+		}
+    }
 }
