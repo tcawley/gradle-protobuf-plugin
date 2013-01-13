@@ -7,7 +7,7 @@ TODO:
 - [ ] proto remote src folder http, drive letter, UNC path
 - [ ] gradlew
 - [ ] Distribution - zip, tar, bz, etc.
-- [ ] GitHub Pages
+- [x] GitHub Pages
 - [ ] srcDir compile only *.proto
 - [ ] automatically include 'java' genDir output as sourceSet for java plugin:
   sourceSets {
