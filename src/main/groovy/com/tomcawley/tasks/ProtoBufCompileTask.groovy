@@ -50,7 +50,7 @@ class ProtoBufCompileTask extends DefaultTask {
 		}
 		
 		// Generate protos for each lang (java, cpp, python, etc.)
-		srcDir.eachFile { File protoFile ->
+		srcDir.eachFileMatch(~/.*\.proto/) { File protoFile ->
 			fileCount++
 			
 			def os = System.getProperty('os.name')
