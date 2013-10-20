@@ -1,7 +1,14 @@
 apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'signing'
+apply plugin: 'idea'
 
 group = 'com.tomcawley'
-version = '0.1'
+version = '0.2'
+
+configurations {
+    published.extendsFrom archives, signatures
+}
 
 repositories {
 	mavenCentral()
@@ -9,7 +16,7 @@ repositories {
 
 dependencies {
 	compile gradleApi()
-	groovy localGroovy()
+	compile localGroovy()
 }
 
 test {
@@ -18,5 +25,82 @@ test {
 	        events "started", "skipped", "failed", "passed", "standard_out"
 	        exceptionFormat "full"
 		}
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.6'
+}
+
+
+task sourceJar(type: Jar) {
+    description = 'An archive of the source code for Maven Central'
+    classifier = 'sources'
+    from sourceSets.main.groovy
+}
+
+
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+    description = 'An archive of the GroovyDocs for Maven Central'
+    classifier = 'javadoc'
+    from fileTree(groovydoc.destinationDir)
+}
+
+artifacts {
+    archives groovydocJar, sourceJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+
+install {
+    repositories.mavenInstaller {
+        pom.project(pomConfiguration)
+    }
+}
+
+
+uploadPublished {
+    dependsOn << [ signArchives ]
+    repositories.mavenDeployer {
+        beforeDeployment { deployment ->
+            signPom(deployment)
+        }
+        name = 'mavenCentralReleaseDeployer'
+        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+            authentication(userName: sonatypeUsername, password: sonatypePassword)
+            releases(updatePolicy: 'always')
+            snapshots(updatePolicy: 'never')
+        }
+        pom.project(pomConfiguration)
+    }
+}
+
+def getPomConfiguration() {
+    return {
+        name('Gradle Protobuf Plugin')
+        description('Gradle plugin for using Google Protocol Buffers in your Gradle project.')
+        url('https://github.com/tcawley/gradle-protobuf-plugin')
+        licenses {
+            license {
+                name 'The MIT License (MIT)'
+                url 'http://opensource.org/licenses/MIT'
+                distribution 'repo'
+            }
+        }
+        developers {
+            developer {
+                id('tcawley')
+                name('Tom Cawley')
+                email('tom@tomcawley.com')
+            }
+        }
+        scm {
+            connection('scm:https://git@github.com/tcawley/gradle-protobuf-plugin')
+            developerConnection('scm:git@github.com:tcawley/gradle-protobuf-plugin.git')
+            url('https://github.com/tcawley/gradle-protobuf-plugin')
+        }
     }
 }
