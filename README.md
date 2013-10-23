@@ -10,11 +10,11 @@ Quick Start
     // Apply the plugin
     buildscript {
         repositories {
-            flatDir (dirs: file('/Users/user/git/gradle-protobuf-plugin/build/libs'))
+            mavenCentral()
         }
         
         dependencies {
-            classpath ':gradle-protobuf-plugin:0.1'
+            classpath 'com.tomcawley:gradle-protobuf-plugin:0.2'
         }
     }
     
@@ -22,7 +22,7 @@ Quick Start
     
     // Point to your protobuf library for compilation of the generated files
     dependencies {
-        compile files('/Users/user/Downloads/protobuf-2.4.1/java/target/protobuf-java-2.4.1.jar')    
+        compile "com.google.protobuf:protobuf-java:2.4.1"
     }
     
     // And finally the important stuff
