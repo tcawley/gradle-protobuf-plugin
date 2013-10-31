@@ -24,7 +24,9 @@
 package com.tomcawley.tasks
 
 import org.gradle.api.DefaultTask;
-import org.gradle.api.GradleException;
+import org.gradle.api.GradleException
+import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.OutputDirectories;
 import org.gradle.api.tasks.TaskAction;
 
 import com.tomcawley.ProtoBufExtension;
@@ -36,8 +38,7 @@ class ProtoBufCompileTask extends DefaultTask {
 	
 	@TaskAction
 	def compileProto() {
-		checkConfigureDefaultSourceSet()
-		
+
 		def srcDir = getSrcDir()
 		
 		if (!srcDir.exists()) {
@@ -52,7 +53,7 @@ class ProtoBufCompileTask extends DefaultTask {
 		}
 		
 		// Generate protos for each lang (java, cpp, python, etc.)
-		srcDir.eachFileMatch(~/.*\.proto/) { File protoFile ->
+		getProtoFiles().each { File protoFile ->
 			fileCount++
 			
 			def os = System.getProperty('os.name')
@@ -71,6 +72,22 @@ class ProtoBufCompileTask extends DefaultTask {
 		if (fileCount == 0) {
 			println "No proto files found!"
 		}
+	}
+
+	@OutputDirectories
+	def getLangDirs() {
+		project.protoBuf.lang.collect { LangConfig lang ->
+			project.file(lang.genDir).mkdirs()
+			project.file(lang.genDir)
+		}
+	}
+
+	@InputFiles
+	List<File> getProtoFiles() {
+        checkConfigureDefaultSourceSet()
+		def retval = []
+		getSrcDir().eachFileMatch(~/.*\.proto/) {retval += it}
+		return retval
 	}
 
 	def executeProtoc(String protocPath, srcDirPath, LangConfig lang, String protoFilePath) {
