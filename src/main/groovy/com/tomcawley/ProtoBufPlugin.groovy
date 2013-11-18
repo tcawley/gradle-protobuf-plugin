@@ -59,7 +59,9 @@ class ProtoBufPlugin implements Plugin<Project> {
 		}
 		
 		// compileJava.dependsOn compileProto
-		project.tasks.findByName(JavaPlugin.COMPILE_JAVA_TASK_NAME).dependsOn(COMPILE_PROTO_TASK)
+		project.getTasksByName(JavaPlugin.COMPILE_JAVA_TASK_NAME, true).each {
+			it.dependsOn(COMPILE_PROTO_TASK)
+		}
 
 		// clean.dependsOn cleanProto
 		project.tasks.findByName(BasePlugin.CLEAN_TASK_NAME).dependsOn(CLEAN_PROTO_TASK)
