@@ -91,10 +91,10 @@ class ProtoBufCompileTask extends DefaultTask {
 	}
 
 	def executeProtoc(String protocPath, srcDirPath, LangConfig lang, String protoFilePath) {
-		def command = "$protocPath"
-		command += " -I=${srcDirPath}"
-		command += " --${lang.name}_out=${lang.genDir}"
-		command += " ${protoFilePath}"
+		def command = ["$protocPath",
+		"-I=${srcDirPath}",
+		"--${lang.name}_out=${lang.genDir}",
+                "${protoFilePath}"]
 		println command
 
 		def p = command.execute(null, project.projectDir)
