@@ -109,3 +109,9 @@ def getPomConfiguration() {
         }
     }
 }
+
+task dist(type:Zip){
+    from jar.outputs.files
+    from sourceJar.outputs.files
+    from groovydocJar.outputs.files
+}
