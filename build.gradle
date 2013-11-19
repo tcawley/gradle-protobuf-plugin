@@ -51,6 +51,7 @@ artifacts {
 }
 
 signing {
+    required {gradle.taskGraph.hasTask("uploadPublished") }
     sign configurations.archives
 }
 
@@ -62,19 +63,23 @@ install {
 }
 
 
-uploadPublished {
-    dependsOn << [ signArchives ]
-    repositories.mavenDeployer {
-        beforeDeployment { deployment ->
-            signPom(deployment)
+
+
+if(project.hasProperty('sonatypeUsername')) {
+    uploadPublished {
+        dependsOn << [ signArchives ]
+        repositories.mavenDeployer {
+            beforeDeployment { deployment ->
+                signPom(deployment)
+            }
+            name = 'mavenCentralReleaseDeployer'
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+                releases(updatePolicy: 'always')
+                snapshots(updatePolicy: 'never')
+            }
+            pom.project(pomConfiguration)
         }
-        name = 'mavenCentralReleaseDeployer'
-        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-            authentication(userName: sonatypeUsername, password: sonatypePassword)
-            releases(updatePolicy: 'always')
-            snapshots(updatePolicy: 'never')
-        }
-        pom.project(pomConfiguration)
     }
 }
 
