@@ -62,8 +62,6 @@ class ProtoBufCompileTask extends DefaultTask {
 
 			def protocConfig = project.protoBuf.protoc.findByName(os)
 			
-			checkProtocConfig(protocConfig, os)
-			
 			project.protoBuf.lang.each { LangConfig lang ->
 				executeProtoc(protocConfig.path, srcDir.absolutePath, lang, protoFile.absolutePath)
 			}
@@ -106,19 +104,6 @@ class ProtoBufCompileTask extends DefaultTask {
 		}
 	}
 
-	def checkProtocConfig(ProtocConfig protocConfig, String os) {
-		if (protocConfig == null) {
-			def example = """protoBuf { 
-   protoc { 
-      '$os' {
-         path = '/path/to/protoc.sh'
-      }
-   }
-}"""
-			throw new GradleException("No protoc path defined for platform '$os'.  Missing configuration?\n$example")
-		}
-	}
-	
 	/**
 	 * Check if the user specified configuration, if not, supply the default
 	 * convention.
@@ -148,6 +133,11 @@ class ProtoBufCompileTask extends DefaultTask {
 				// srcDir to 'src/main/proto'
 				proto
 			}
+		}
+
+		def os = System.getProperty('os.name')
+		project.protoBuf.protoc {
+			"$os" { path = 'protoc' }
 		}
 	}
 
