@@ -30,6 +30,8 @@ class LangConfig implements Named {
 	final String name
 	String genDir
 
+	String[] plugin
+
 	public LangConfig(String name) {
 		this.name = name
 		
