@@ -68,7 +68,9 @@ class ProtoBufPlugin implements Plugin<Project> {
 	
 		def sourceSets = project.container(ProtoBufSourceSet)
 		def protoc = project.container(ProtocConfig)
-		def lang = project.container(LangConfig)
+		def lang = project.container(LangConfig) {
+			new LangConfig(it, project.container(ProtocConfig))
+		}
 		
 		project.configure(project) {
 			extensions.create(ProtoBufExtension.NAME, ProtoBufExtension, sourceSets, protoc, lang)
