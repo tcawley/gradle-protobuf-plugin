@@ -65,7 +65,7 @@ class ProtoBufCompileTask extends DefaultTask {
 			checkProtocConfig(protocConfig, os)
 			
 			project.protoBuf.lang.each { LangConfig lang ->
-				executeProtoc(protocConfig.path, srcDir.absolutePath, lang, protoFile.absolutePath)
+				executeProtoc(protocConfig.path, srcDir.absolutePath, lang, protoFile.absolutePath, os)
 			}
 		}
 		
@@ -90,11 +90,11 @@ class ProtoBufCompileTask extends DefaultTask {
 		return retval
 	}
 
-	def executeProtoc(String protocPath, srcDirPath, LangConfig lang, String protoFilePath) {
+	def executeProtoc(String protocPath, srcDirPath, LangConfig lang, String protoFilePath, os) {
 
-		def plugins = lang.plugin.collect { String plugin ->
-			"--plugin="+plugin
-		}
+		println lang.plugin
+		def matched = lang.plugin.findAll { it.name.matches(os) }
+		def plugins = matched.collect { "--plugin="+it.path }
 
 		def command = ["$protocPath",
 		"-I=${srcDirPath}"] +
