@@ -60,7 +60,7 @@ class ProtoBufCompileTask extends DefaultTask {
 
 			println "Compiling $protoFile.name for $os"
 
-			def protocConfig = project.protoBuf.protoc.findByName(os)
+			def protocConfig = project.protoBuf.protoc.find { os.matches(it.name) }
 			
 			checkProtocConfig(protocConfig, os)
 			
