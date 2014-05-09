@@ -93,7 +93,7 @@ class ProtoBufCompileTask extends DefaultTask {
 	def executeProtoc(String protocPath, srcDirPath, LangConfig lang, String protoFilePath, os) {
 
 		println lang.plugin
-		def matched = lang.plugin.findAll { it.name.matches(os) }
+		def matched = lang.plugin.findAll { os.matches(it.name) }
 		def plugins = matched.collect { "--plugin="+it.path }
 
 		def command = ["$protocPath",
