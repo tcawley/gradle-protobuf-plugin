@@ -60,12 +60,12 @@ class ProtoBufCompileTask extends DefaultTask {
 
 			println "Compiling $protoFile.name for $os"
 
-			def protocConfig = project.protoBuf.protoc.findByName(os)
+			def protocConfig = project.protoBuf.protoc.find { os.matches(it.name) }
 			
 			checkProtocConfig(protocConfig, os)
 			
 			project.protoBuf.lang.each { LangConfig lang ->
-				executeProtoc(protocConfig.path, srcDir.absolutePath, lang, protoFile.absolutePath)
+				executeProtoc(protocConfig.path, srcDir.absolutePath, lang, protoFile.absolutePath, os)
 			}
 		}
 		
@@ -90,11 +90,18 @@ class ProtoBufCompileTask extends DefaultTask {
 		return retval
 	}
 
-	def executeProtoc(String protocPath, srcDirPath, LangConfig lang, String protoFilePath) {
+	def executeProtoc(String protocPath, srcDirPath, LangConfig lang, String protoFilePath, os) {
+
+		println lang.plugin
+		def matched = lang.plugin.findAll { os.matches(it.name) }
+		def plugins = matched.collect { "--plugin="+it.path }
+
 		def command = ["$protocPath",
-		"-I=${srcDirPath}",
-		"--${lang.name}_out=${lang.genDir}",
+		"-I=${srcDirPath}"] +
+		plugins +
+		["--${lang.name}_out=${lang.genDir}",
                 "${protoFilePath}"]
+
 		println command
 
 		def p = command.execute(null, project.projectDir)

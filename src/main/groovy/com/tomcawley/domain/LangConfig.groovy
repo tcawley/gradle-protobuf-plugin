@@ -23,17 +23,26 @@
  */
 package com.tomcawley.domain
 
-import org.gradle.api.Named;
+import org.gradle.api.Named
+import org.gradle.api.NamedDomainObjectContainer
 
 class LangConfig implements Named {
 
 	final String name
 	String genDir
 
-	public LangConfig(String name) {
+	final NamedDomainObjectContainer<ProtocConfig> plugin
+
+	public LangConfig(String name, NamedDomainObjectContainer<ProtocConfig> plugin) {
 		this.name = name
+		this.plugin = plugin
 		
 		// Default, e.g., src/main/java, src/main/cpp, etc.
 		genDir = "src/main/$name"
+	}
+
+
+	def plugin(Closure closure) {
+		plugin.configure(closure)
 	}
 }

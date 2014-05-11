@@ -4,7 +4,7 @@ apply plugin: 'signing'
 apply plugin: 'idea'
 
 group = 'com.tomcawley'
-version = '0.3'
+version = '0.3.2'
 
 configurations {
     published.extendsFrom archives, signatures
